@@ -4,25 +4,15 @@ const initialState = {
   count: 0,
 };
 
-function reducer(state = initialState, action) {
-  //   console.log("reducer", state, action);
+const actionHandlers = {
+  [INCREMENT]: (state) => ({ count: state.count + 1 }),
+  [DECREMENT]: (state) => ({ count: state.count - 1 }),
+  [RESET]: () => ({ count: 0 }),
+};
 
-  switch (action.type) {
-    case INCREMENT:
-      return {
-        count: state.count + 1,
-      };
-    case DECREMENT:
-      return {
-        count: state.count - 1,
-      };
-    case RESET:
-      return {
-        count: 0,
-      };
-    default:
-      return state;
-  }
+function reducer(state = initialState, action) {
+  const handler = actionHandlers[action.type];
+  return handler ? handler(state) : state;
 }
 
 export default reducer;
